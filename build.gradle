@@ -12,6 +12,8 @@ buildscript {
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
         classpath "io.spring.gradle:dependency-management-plugin:1.0.15.RELEASE"
+        classpath "org.ec4j.editorconfig:org.ec4j.editorconfig.gradle.plugin:0.0.3"
+        classpath "com.puppycrawl.tools:checkstyle:10.3.4"
     }
 }
 
@@ -19,6 +21,8 @@ subprojects {
     apply plugin: "java"
     apply plugin: "org.springframework.boot"
     apply plugin: "io.spring.dependency-management"
+    apply plugin: "org.ec4j.editorconfig"
+    apply plugin: "checkstyle"
 
     group = "com.greenlight"
     version = "0.0.1-SNAPSHOT"
@@ -45,6 +49,26 @@ subprojects {
         compileOnly "org.projectlombok:lombok"
         annotationProcessor "org.projectlombok:lombok"
     }
+
+    editorconfig {
+        excludes = ['build']
+    }
+    check.dependsOn editorconfigCheck
+
+    checkstyle {
+        maxWarnings = 0
+        configFile = file("${rootDir}/config/checkstyle/naver-checkstyle-rules.xml")
+        configProperties = ["suppressionFile": "${rootDir}/config/checkstyle/naver-checkstyle-suppressions.xml"]
+        toolVersion = "10.3.4"
+    }
+
+    checkstyleMain {
+        source ='src/main/java'
+    }
+
+    checkstyleTest {
+        source ='src/test/java'
+    }
 }
 
 //projects
@@ -56,4 +80,12 @@ project(':greenlight-core') {
 project(':greenlight-api') {
     bootJar { enabled = true }
     jar { enabled = false }
+}
+
+//https://stackoverflow.com/questions/52636622/how-to-accept-gradle-tos-for-build-scan-automatically-and-still-manage-to-ru
+if (hasProperty('buildScan')) {
+    buildScan {
+        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+        termsOfServiceAgree = 'yes'
+    }
 }

@@ -4,7 +4,7 @@
 - docker를 처음해봐서 compose라는 directory에 모아서 하고싶음 가능하겠지??
 
 ### Docker-compose version
-- [docker-compose][https://docs.docker.com/compose/compose-file/compose-versioning/]
+- [docker-compose](https://docs.docker.com/compose/compose-file/compose-versioning/)
 - docker engine version에 따른 docker compose
 
 ### 환경변수 { .evn or export }
