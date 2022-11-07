@@ -12,12 +12,12 @@
 
 ### restart [옵션]
 - no : 프로세스 종료되어도 컨테이너 재시작 않음 (default)
-- on-failure[:max-retries] : container가 정상적으로 종료되지 않은경우(exit codr 0이아님)에만 재시작 시킴 max-retries도 함께 주면 재시작 최대 시도 횟수를 지정가능
+- on-failure[:max-retries] : container가 정상적으로 종료되지 않은경우(exit code 0이아님)에만 재시작 시킴 max-retries도 함께 주면 재시작 최대 시도 횟수를 지정가능
 - always : container 항상 재시작 exit code 상관없이 항상 재시작한다.
 - unless-stopped : container를 stop 전까지 항상 재시작한다.
 
 ### 멸령어
 ```shell
-> docker-compose -d up
+> docker-compose up -d
 > docker-compose down
 ```
