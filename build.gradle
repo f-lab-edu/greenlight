@@ -1,20 +1,8 @@
-buildscript {
-    ext {
-        springBootVersion = "2.7.5"
-    }
-    repositories {
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
-        maven { url "https://repo.spring.io/plugins-release" }
-        maven { url "https://repo.spring.io/milestone" }
-        maven { url "https://repo.spring.io/snapshot" }
-    }
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-        classpath "io.spring.gradle:dependency-management-plugin:1.0.15.RELEASE"
-        classpath "org.ec4j.editorconfig:org.ec4j.editorconfig.gradle.plugin:0.0.3"
-        classpath "com.puppycrawl.tools:checkstyle:10.3.4"
-    }
+plugins {
+    id "org.springframework.boot" version "2.7.5"
+    id "io.spring.dependency-management" version "1.1.0"
+    id "org.ec4j.editorconfig" version "0.0.3"
+    id "checkstyle"
 }
 
 subprojects {
