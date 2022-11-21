@@ -1,8 +1,44 @@
+apply plugin: "org.flywaydb.flyway"
+
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // spring
+    implementation "org.springframework.boot:spring-boot-starter"
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // flyway
+    implementation "org.flywaydb:flyway-core"
+    implementation "org.flywaydb:flyway-mysql"
+
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // test
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
-tasks.named('test') {
+tasks.named("test") {
     useJUnitPlatform()
+}
+
+flyway {
+//    url = "jdbc:mysql://localhost:3307/greenlight?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
+    url = "jdbc:mysql://127.0.0.1:3307/greenlight?useSSL=false"
+//    schemas = ['greenlight']
+    user = 'grnmaster'
+    password = 'password'
+    outOfOrder = true
+//    locations = ['filesystem:src/main/resources/db/migration/local']
+//    locations = ["filesystem:${file('src/main/resources/db/migration/local').absolutePath}"]
+//    table = 'flyway_migration_history'
+//    encoding = 'UTF8'
+//    driver = 'com.mysql.cj.jdbc.Driver'
+//    baselineOnMigrate = true
+//    cleanDisabled = false
+//    ignoreMigrationPatterns = "*:pending"
 }

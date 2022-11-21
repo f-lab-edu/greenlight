@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/greenlight?serverTimezone=Asia/Seoul&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    username: grnmaster
+    password: password
+  flyway:
+    enabled: false
+    encoding: UTF-8
+    url: jdbc:mysql://localhost:3307/greenlight
+    user: grnmaster
+    password: password
+    baseline-on-migrate: true
+    locations: classpath:db/migrations/local,db/migrations/seed
+    baseline-version: 1.0.0
+    ignore-migration-patterns: "*:pending"
+    clean-on-validation-error: true
+    clean-disabled: false
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+# HS512 알고리즘 사용 64byte 이상의 키값을 사용해야함
+jwt:
+  header: Authorization
+  secret: Zi1sYWItZ3JlZW5saWdodC1zcHJpbmctYm9vdC1qd3QtZi1sYWItZ3JlZW5saWdodC1zcHJpbmctYm9vdC1qd3QK
+  token-validity-in-seconds: 86400
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+

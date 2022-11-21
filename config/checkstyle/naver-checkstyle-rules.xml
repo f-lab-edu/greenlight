@@ -45,23 +45,23 @@ The following rules in the Naver coding convention cannot be checked by this con
     <!-- [line-length-120] -->
     <property name="tabWidth" value="4"/>
     <module name="LineLength">
-        <property name="max" value="120"/>
+        <property name="max" value="140"/>
         <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
         <message key="maxLineLen"
-                 value="[line-length-120] Line is longer than {0,number,integer} characters (found {1,number,integer})"/>
+                 value="[line-length-140] Line is longer than {0,number,integer} characters (found {1,number,integer})"/>
     </module>
 
     <module name="TreeWalker">
         <!-- Start of Naming chapter -->
 
         <!-- [list-uppercase-abbr] -->
-        <module name="AbbreviationAsWordInName">
+        <!--<module name="AbbreviationAsWordInName">
             <property name="ignoreFinal" value="false"/>
             <property name="allowedAbbreviationLength" value="1"/>
             <message key="abbreviation.as.word"
                      value="[list-uppercase-abbr] Abbreviation in name ''{0}'' must contain no more than {1}"/>
             <property name="allowedAbbreviations" value="DAO,BO"/>
-        </module>
+        </module>-->
 
         <!-- [package-lowercase] -->
         <module name="PackageName">
@@ -235,17 +235,17 @@ The following rules in the Naver coding convention cannot be checked by this con
 
         <!-- [block-indentation][indentation-after-line-wrapping] -->
         <!-- checkstyle 6.16 이상을 써야지 탭을 쓸때의 인덴트 체크가 제대로 동작함 -->
-        <module name="Indentation">
+        <!--<module name="Indentation">
             <property name="basicOffset" value="4"/>
             <property name="braceAdjustment" value="0"/>
             <property name="caseIndent" value="4"/>
             <property name="throwsIndent" value="4"/>
             <property name="lineWrappingIndentation" value="4"/>
             <property name="arrayInitIndent" value="4"/>
-        </module>
+        </module>-->
 
         <!-- [line-wrapping-position] -->
-        <module name="SeparatorWrap">
+        <!--<module name="SeparatorWrap">
             <property name="tokens" value="COMMA"/>
             <property name="option" value="EOL"/>
             <message key="line.previous"
@@ -256,7 +256,7 @@ The following rules in the Naver coding convention cannot be checked by this con
             <property name="option" value="NL"/>
             <message key="line.new"
                      value="[line-wrapping-position] ''{0}'' should be on a new line."/>
-        </module>
+        </module>-->
         <module name="OperatorWrap">
             <property name="option" value="NL"/>
             <property name="tokens" value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR "/>
@@ -281,7 +281,7 @@ The following rules in the Naver coding convention cannot be checked by this con
         -->
 
         <!-- [import-grouping] -->
-        <module name="ImportOrder">
+        <!--<module name="ImportOrder">
             <property name="groups" value="java., javax., org., net., /com\.(?!nhncorp|navercorp|naver)/, /(?!java\.|javax\.|com\.|org\.|net\.)/, com.nhncorp., com.navercorp., com.naver."/>
             <property name="ordered" value="true"/>
             <property name="separated" value="true"/>
@@ -293,7 +293,7 @@ The following rules in the Naver coding convention cannot be checked by this con
                      value="[import-grouping] Wrong order for ''{0}'' import."/>
             <message key="import.separation"
                      value="[import-grouping] ''{0}'' should be separated from previous imports."/>
-        </module>
+        </module>-->
 
         <!-- [blankline-between-methods] -->
         <module name="EmptyLineSeparator">
@@ -365,11 +365,11 @@ The following rules in the Naver coding convention cannot be checked by this con
             <message key="ws.notFollowed"
                      value="[space-after-comma-semicolon]: ''{0}'' is not followed by whitespace."/>
         </module>
-        <module name="NoWhitespaceBefore">
+        <!--<module name="NoWhitespaceBefore">
             <property name="tokens" value="COMMA,SEMI"/>
             <message key="ws.preceded"
                      value="[space-after-comma-semicolon] ''{0}'' is preceded with whitespace."/>
-        </module>
+        </module>-->
 
         <!-- [space-around-colon] -->
         <module name="WhitespaceAround">
@@ -382,7 +382,7 @@ The following rules in the Naver coding convention cannot be checked by this con
         </module>
 
         <!-- [no-space-unary-operator] -->
-        <module name="NoWhitespaceBefore">
+        <!--<module name="NoWhitespaceBefore">
             <property name="tokens" value="POST_INC, POST_DEC"/>
             <message key="ws.preceded"
                      value="[no-space-unary-operator] ''{0}'' is preceded with whitespace."/>
@@ -392,7 +392,7 @@ The following rules in the Naver coding convention cannot be checked by this con
             <message key="ws.followed"
                      value="[no-space-unary-operator] whitespace ''{0}'' is followed by whitespace."/>
         </module>
-
+-->
         <!-- [space-around-binary-ternary-operator] -->
         <module name="WhitespaceAround">
             <property name="tokens" value="ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR, BXOR_ASSIGN, DIV,
