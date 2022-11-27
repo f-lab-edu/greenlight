@@ -73,6 +73,11 @@ project(':greenlight-api') {
     jar { enabled = false }
 }
 
+project(':greenlight-auth') {
+    bootJar { enabled = true }
+    jar { enabled = false }
+}
+
 //https://stackoverflow.com/questions/52636622/how-to-accept-gradle-tos-for-build-scan-automatically-and-still-manage-to-ru
 if (hasProperty('buildScan')) {
     buildScan {

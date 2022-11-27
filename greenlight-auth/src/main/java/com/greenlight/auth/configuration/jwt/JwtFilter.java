@@ -1,4 +1,4 @@
-package com.greenlight.global.exception.security.jwt;
+package com.greenlight.auth.configuration.jwt;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -19,12 +20,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * request header에서 가져온 token을 filtering
  */
 @Slf4j
+@Configuration
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-
-    private final TokenProvider tokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtProperties jwtProperties;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request
@@ -33,21 +34,25 @@ public class JwtFilter extends OncePerRequestFilter {
         String jwtToken = resolveToken(request);
         String requestURI = request.getRequestURI();
 
-        if (StringUtils.hasText(jwtToken) && tokenProvider.validateToken(jwtToken)) {
-            Authentication authentication = tokenProvider.getAuthentication(jwtToken);
+        log.info("JwtFilter doFilterInternal");
+
+        // 토큰이 정상일때 Authentication
+        if (StringUtils.hasText(jwtToken) && jwtTokenProvider.validateToken(jwtToken)) {
+            Authentication authentication = jwtTokenProvider.getAuthentication(jwtToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.info("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
+            log.info("Security Context 에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
         } else {
             log.info("유효한 JWT 토큰이 없습니다, uri: {}", requestURI);
         }
+        log.info("JwtFilter End");
 
         filterChain.doFilter(request, response);
 
     }
 
     private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+        String bearerToken = request.getHeader(jwtProperties.getAuthorizationHeader());
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(jwtProperties.getTokenHeaderPrefix())) {
             return bearerToken.substring(7);
         }
         return null;

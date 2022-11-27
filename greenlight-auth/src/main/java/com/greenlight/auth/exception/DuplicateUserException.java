@@ -1,6 +1,6 @@
-package com.greenlight.global.exception;
+package com.greenlight.auth.exception;
 
-import com.greenlight.global.domain.ErrorCode;
+import com.greenlight.auth.domain.ErrorCode;
 
 public class DuplicateUserException extends BusinessException {
     public DuplicateUserException() {
