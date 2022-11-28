@@ -10,6 +10,4 @@ import lombok.ToString;
 public class TokenDTO {
     private final String accessToken;
     private final String refreshToken;
-    private final String tokenType;
-    private final long expiresIn;
 }

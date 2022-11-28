@@ -29,15 +29,15 @@ spring:
         format_sql: true
         show_sql: true
         use_sql_comments: true
-# HS512 ???? ?? 64byte ??? ??? ?????
+# HS512 알고리즘 사용 64byte 이상의 키값을 사용해야함
 jwt:
   authorization-header: Authorization
   access-header: access_token
   refresh-header: refresh_token
   token-header-prefix: Bearer
   secret-key: Zi1sYWItZ3JlZW5saWdodC1zcHJpbmctYm9vdC1qd3QtZi1sYWItZ3JlZW5saWdodC1zcHJpbmctYm9vdC1qd3QK
-  access-token-validity-in-seconds: 1 # 30? 60? * 30?
-  refresh-token-validity-in-seconds: 86400 # 1? 60? * 1440 (24??) * 1?
+  access-token-validity-in-seconds: 1
+  refresh-token-validity-in-seconds: 864000
 
 server:
   error:

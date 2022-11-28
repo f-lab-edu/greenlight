@@ -31,28 +31,32 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request
             , HttpServletResponse response
             , FilterChain filterChain) throws ServletException, IOException {
-        String jwtToken = resolveToken(request);
-        String requestURI = request.getRequestURI();
 
-        log.info("JwtFilter doFilterInternal");
+		String servletPath = request.getServletPath();
+		String jwtAccessToken = resolveAccessToken(request);
 
-        // 토큰이 정상일때 Authentication
-        if (StringUtils.hasText(jwtToken) && jwtTokenProvider.validateToken(jwtToken)) {
-            Authentication authentication = jwtTokenProvider.getAuthentication(jwtToken);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.info("Security Context 에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
-        } else {
-            log.info("유효한 JWT 토큰이 없습니다, uri: {}", requestURI);
-        }
-        log.info("JwtFilter End");
+		if (servletPath.equals("/api/auth/refresh-token")) {
+			filterChain.doFilter(request, response);
+		} else {
+			log.info("JwtFilter doFilterInternal");
+			// 토큰이 정상일때 Authentication
+			if (StringUtils.hasText(jwtAccessToken) && jwtTokenProvider.validateToken(jwtAccessToken)) {
+				Authentication authentication = jwtTokenProvider.getAuthentication(jwtAccessToken);
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+				log.info("Security Context 에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), servletPath);
+			} else {
+				log.info("유효한 JWT 토큰이 없습니다, uri: {}", servletPath);
+			}
+			log.info("JwtFilter End");
 
-        filterChain.doFilter(request, response);
-
+			filterChain.doFilter(request, response);
+		}
     }
 
-    private String resolveToken(HttpServletRequest request) {
+    private String resolveAccessToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(jwtProperties.getAuthorizationHeader());
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(jwtProperties.getTokenHeaderPrefix())) {
+        	log.info("bearerToken = {}", bearerToken);
             return bearerToken.substring(7);
         }
         return null;

@@ -55,9 +55,8 @@ public class JwtTokenProvider {
     public Optional<TokenDTO> generateTokenDTO(Authentication authentication) {
         String accessToken = createAccessToken(authentication);
         String refreshToken = createRefreshToken(authentication);
-        long expiresIn = accessTokenValidityInMilliseconds / 1000L;
 
-        return Optional.of(new TokenDTO(accessToken, refreshToken, tokenHeaderPrefix, expiresIn));
+        return Optional.of(new TokenDTO(accessToken, refreshToken));
     }
 
     private String createAccessToken(Authentication authentication) {
@@ -136,8 +135,9 @@ public class JwtTokenProvider {
         }
     }
 
-    private Claims parseClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    public Claims parseClaims(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build()
+			.parseClaimsJws(token).getBody();
     }
 
 }

@@ -9,12 +9,14 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-    DUPLICATE_MEMBER_FAILED("E001", "이미 가입되어 있는 유저입니다.", HttpStatus.BAD_REQUEST)
+	SUCCESS("S001", "성공", HttpStatus.OK)
+    , DUPLICATE_MEMBER_FAILED("E001", "이미 가입되어 있는 유저입니다.", HttpStatus.BAD_REQUEST)
     , NOT_FOUND_MEMBER_FAILED("E002", "유저를 찾을수 없습니다.", HttpStatus.BAD_REQUEST)
     , JWT_SIGNATURE_FAILED("E003", "잘못된 JWT 서명입니다.", HttpStatus.UNAUTHORIZED)
     , JWT_EXPIRED_FAILED("E004", "만료된 JWT 토큰입니다.", HttpStatus.UNAUTHORIZED)
     , JWT_UNSUPPORTED_FAILED("E005", "지원되지 않는 JWT 토큰입니다.", HttpStatus.UNAUTHORIZED)
     , JWT_ILLIGAL_ARG_FAILED("E006", "JWT 토큰이 잘못되었습니다.", HttpStatus.UNAUTHORIZED)
+	, CONVERTING_FAILED("E007", "파싱중에 에러가 발생하였습니다.", HttpStatus.BAD_REQUEST),
     ;
 
     private final String code;

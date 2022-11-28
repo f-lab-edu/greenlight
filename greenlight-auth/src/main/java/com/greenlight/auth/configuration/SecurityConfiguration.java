@@ -19,6 +19,7 @@ import com.greenlight.auth.configuration.jwt.JwtAuthenticationEntryPoint;
 import com.greenlight.auth.configuration.jwt.JwtExceptionFilter;
 import com.greenlight.auth.configuration.jwt.JwtFilter;
 import com.greenlight.auth.configuration.jwt.JwtProperties;
+import com.greenlight.auth.configuration.jwt.JwtSecurityConfiguration;
 import com.greenlight.auth.configuration.jwt.JwtTokenProvider;
 
 @EnableWebSecurity
@@ -79,10 +80,7 @@ public class SecurityConfiguration {
                 .anyRequest().authenticated()
 
                 .and()
-                .addFilterBefore(new JwtFilter(jwtTokenProvider, jwtProperties), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtExceptionFilter, JwtFilter.class)
-//                .and()
-//                .apply(new JwtSecurityConfiguration(jwtTokenProvider, jwtExceptionFilter, jwtProperties))
+                .apply(new JwtSecurityConfiguration(jwtTokenProvider, jwtExceptionFilter, jwtProperties))
                 ;
 
         return httpSecurity.build();
