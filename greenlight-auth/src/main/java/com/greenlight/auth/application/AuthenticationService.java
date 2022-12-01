@@ -1,14 +1,10 @@
 package com.greenlight.auth.application;
 
-import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -83,27 +79,21 @@ public class AuthenticationService implements UserDetailsService {
 		String accessToken = resolveToken(tokenRequest.getAccessToken());
 		String refreshToken = tokenRequest.getRefreshToken();
 
-		// 흠 getExpiration을 하면 만료되버리면 에러 던지네
-//		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//		log.info("accessToken : " + accessToken);
-//		log.info("refreshToken : " + refreshToken);
-//		long dateAc = jwtTokenProvider.parseClaims(accessToken).getExpiration().getTime();
-//		log.info("now : " + simpleDateFormat.format(new Date()));
-
+        jwtTokenProvider.test(accessToken);
 		ErrorCode errorCode = ErrorCode.SUCCESS;
 
 		try {
 			jwtTokenProvider.validateToken(accessToken);
-		} catch (JwtException eje) {
-			log.info("access-token : {}" + eje.getErrorCode().getCode());
-			errorCode = eje.getErrorCode();
+		} catch (JwtException je) {
+			log.info("access-token : {}" + je.getErrorCode().getCode());
+			errorCode = je.getErrorCode();
 		}
 
 		try {
 			jwtTokenProvider.validateToken(refreshToken);
-		} catch (JwtException eje) {
-			log.info("refresh-token : {}" + eje.getErrorCode().getCode());
-			errorCode = eje.getErrorCode();
+		} catch (JwtException je) {
+			log.info("refresh-token : {}" + je.getErrorCode().getCode());
+			errorCode = je.getErrorCode();
 		}
 
 		return new TokenResponse();

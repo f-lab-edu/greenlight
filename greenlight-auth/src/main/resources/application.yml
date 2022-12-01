@@ -36,7 +36,7 @@ jwt:
   refresh-header: refresh_token
   token-header-prefix: Bearer
   secret-key: Zi1sYWItZ3JlZW5saWdodC1zcHJpbmctYm9vdC1qd3QtZi1sYWItZ3JlZW5saWdodC1zcHJpbmctYm9vdC1qd3QK
-  access-token-validity-in-seconds: 1
+  access-token-validity-in-seconds: 18000
   refresh-token-validity-in-seconds: 864000
 
 server:

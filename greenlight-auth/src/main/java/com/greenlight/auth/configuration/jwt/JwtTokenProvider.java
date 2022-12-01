@@ -140,4 +140,22 @@ public class JwtTokenProvider {
 			.parseClaimsJws(token).getBody();
     }
 
+    public void test(String token) {
+        log.info("getSignature = {}", Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getSignature());
+        log.info("getHeader = {}", Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getHeader());
+        log.info("getBody = {}", Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody());
+        log.info("getBody = {}", Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("sub"));
+        log.info("getBody = {}", Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("auth"));
+        log.info("getBody = {}", Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("exp"));
+        log.info("getId = {}", Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getId());
+        log.info("getIssuedAt = {}", Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getIssuedAt());
+        log.info("getIssuer = {}", Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getIssuer());
+        log.info("getExpiration = {}", Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration());
+        log.info("getSubject = {}", Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject());
+        log.info("getNotBefore = {}", Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getNotBefore());
+        log.info("getAudience = {}", Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getAudience());
+//        log.info("aaaa = {}", Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get);
+
+    }
+
 }
