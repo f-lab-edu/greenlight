@@ -1,15 +1,13 @@
 package com.greenlight.auth.domain.entity;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import com.greenlight.auth.domain.MemberRole;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import com.greenlight.auth.domain.MemberRole;
 
 @Getter
 @ToString

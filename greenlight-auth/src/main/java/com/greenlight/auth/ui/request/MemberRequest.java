@@ -1,4 +1,4 @@
-package com.greenlight.auth.ui.dto.response;
+package com.greenlight.auth.ui.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MemberResponse {
+public class MemberRequest {
     private String memberId;
     private String name;
     private String email;

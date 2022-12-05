@@ -1,16 +1,14 @@
 package com.greenlight.auth.application;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.greenlight.auth.domain.entity.Member;
 import com.greenlight.auth.domain.repository.MemberRepository;
 import com.greenlight.auth.exception.DuplicateUserException;
-import com.greenlight.auth.ui.dto.request.MemberRequest;
-import com.greenlight.auth.ui.dto.response.MemberResponse;
+import com.greenlight.auth.ui.request.MemberRequest;
+import com.greenlight.auth.ui.response.MemberResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
@@ -28,7 +26,6 @@ public class MemberService {
                         .email(memberRequestDto.getEmail())
                         .password(passwordEncoder.encode(memberRequestDto.getPassword())).build()
         );
-        log.info("member = {}", member);
         return MemberResponse.builder()
                 .memberId(member.getMemberId())
                 .name(member.getName())

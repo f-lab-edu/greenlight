@@ -1,11 +1,9 @@
-package com.greenlight.auth.ui.dto.request;
+package com.greenlight.auth.ui.request;
 
+import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotEmpty;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 @Getter

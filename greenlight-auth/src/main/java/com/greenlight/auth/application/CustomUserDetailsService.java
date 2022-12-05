@@ -1,12 +1,16 @@
 package com.greenlight.auth.application;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+import com.greenlight.auth.configuration.jwt.JwtProperties;
+import com.greenlight.auth.configuration.jwt.JwtTokenProvider;
+import com.greenlight.auth.domain.entity.Member;
+import com.greenlight.auth.domain.repository.MemberRepository;
+import com.greenlight.auth.ui.request.LoginRequest;
+import com.greenlight.auth.ui.response.TokenResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -18,20 +22,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.greenlight.auth.configuration.jwt.JwtProperties;
-import com.greenlight.auth.configuration.jwt.JwtTokenProvider;
-import com.greenlight.auth.domain.ErrorCode;
-import com.greenlight.auth.domain.entity.Member;
-import com.greenlight.auth.domain.repository.MemberRepository;
-import com.greenlight.auth.exception.JwtException;
-import com.greenlight.auth.ui.dto.request.LoginRequest;
-import com.greenlight.auth.ui.dto.request.TokenRequest;
-import com.greenlight.auth.ui.dto.response.TokenResponse;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -49,7 +43,6 @@ public class AuthenticationService implements UserDetailsService {
                     memberRepository.saveRefreshToken(loginRequest.getMemberId(), tokenDTO);
                     return new TokenResponse(tokenDTO.getAccessToken(), tokenDTO.getRefreshToken());
                 });
-        log.info("generateTokenDTO tokenResponse = {}", tokenResponse);
 
         return tokenResponse.get();
     }
@@ -73,31 +66,6 @@ public class AuthenticationService implements UserDetailsService {
                 , grantedAuthorities
         );
     }
-
-    public TokenResponse refreshTokenDTO(TokenRequest tokenRequest) {
-    	// 토큰을 갱신해주자
-		String accessToken = resolveToken(tokenRequest.getAccessToken());
-		String refreshToken = tokenRequest.getRefreshToken();
-
-        jwtTokenProvider.test(accessToken);
-		ErrorCode errorCode = ErrorCode.SUCCESS;
-
-		try {
-			jwtTokenProvider.validateToken(accessToken);
-		} catch (JwtException je) {
-			log.info("access-token : {}" + je.getErrorCode().getCode());
-			errorCode = je.getErrorCode();
-		}
-
-		try {
-			jwtTokenProvider.validateToken(refreshToken);
-		} catch (JwtException je) {
-			log.info("refresh-token : {}" + je.getErrorCode().getCode());
-			errorCode = je.getErrorCode();
-		}
-
-		return new TokenResponse();
-	}
 
 	private String resolveToken(String token) {
     	if(token.startsWith(jwtProperties.getTokenHeaderPrefix())) {

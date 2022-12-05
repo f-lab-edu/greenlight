@@ -1,5 +1,14 @@
 package com.greenlight.auth.configuration.jwt;
 
+import java.security.Key;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import com.greenlight.auth.application.dto.TokenDTO;
+import com.greenlight.auth.domain.ErrorCode;
+import com.greenlight.auth.exception.JwtException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -9,24 +18,12 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-
-import java.security.Key;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-
-import com.greenlight.auth.application.dto.TokenDTO;
-import com.greenlight.auth.domain.ErrorCode;
-import com.greenlight.auth.exception.JwtException;
 
 /**
  * 토큰의 생성과 유효성 검사
@@ -83,6 +80,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
+				.setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(expiration)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
@@ -112,6 +110,12 @@ public class JwtTokenProvider {
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
+
+	public boolean isExpired(String token) {
+		Date expiredDate = parseClaims(token).getExpiration();
+		// Token의 만료 날짜가 지금보다 이전인지 check
+		return expiredDate.before(new Date());
+	}
 
     /**
      * token의 유효성 검사

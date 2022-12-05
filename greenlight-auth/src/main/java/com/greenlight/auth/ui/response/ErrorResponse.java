@@ -1,24 +1,27 @@
-package com.greenlight.auth.ui.dto.response;
+package com.greenlight.auth.ui.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.greenlight.auth.domain.ErrorCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 public class ErrorResponse {
 
 	@JsonIgnore
 	private ErrorCode errorCode;
 
-	@JsonProperty("result_code")
-	private String resultCode;
-	@JsonProperty("result_msg")
-	private String resultMsg;
+	private String code;
+	private String msg;
 
 	public ErrorResponse(ErrorCode errorCode) {
 		this.errorCode = errorCode;
-		this.resultCode = errorCode.getCode();
-		this.resultMsg = errorCode.getMessage();
+		this.code = errorCode.getCode();
+		this.msg = errorCode.getMessage();
 	}
 }

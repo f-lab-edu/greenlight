@@ -1,11 +1,10 @@
-package com.greenlight.auth.ui.dto.request;
+package com.greenlight.auth.ui.request;
 
 import javax.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Getter
