@@ -1,15 +1,18 @@
 package com.greenlight.auth.ui;
 
-import javax.validation.Valid;
-import com.greenlight.auth.application.MemberService;
-import com.greenlight.auth.ui.request.MemberRequest;
-import com.greenlight.auth.ui.response.MemberResponse;
-import com.greenlight.auth.ui.response.Response;
 import lombok.RequiredArgsConstructor;
+
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.greenlight.auth.application.MemberService;
+import com.greenlight.auth.ui.request.MemberRequest;
+import com.greenlight.auth.ui.response.MemberResponse;
+import com.greenlight.auth.ui.response.Response;
 
 @RestController
 @RequestMapping("/api")
@@ -20,8 +23,8 @@ public class MemberController {
 
     @PostMapping("/signUp")
     public Response<MemberResponse> signUp(
-            @Valid @RequestBody MemberRequest memberRequestDto) {
-        return Response.success(memberService.signUp(memberRequestDto));
+            @Valid @RequestBody MemberRequest memberRequest) {
+        return Response.success(memberService.signUp(memberRequest));
     }
 
 }

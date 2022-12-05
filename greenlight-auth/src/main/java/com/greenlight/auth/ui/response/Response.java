@@ -3,10 +3,13 @@ package com.greenlight.auth.ui.response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @AllArgsConstructor
 @Getter
 public class Response<T> {
 
+	@JsonProperty("success")
 	private boolean success;
     private T data;
     private T error;
