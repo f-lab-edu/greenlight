@@ -1,4 +1,4 @@
-package com.domain;
+package com.greenlight.auth.domain;
 
 public enum MemberRole {
     ROLE_MEMBER

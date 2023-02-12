@@ -1,4 +1,4 @@
-package com.domain;
+package com.greenlight.auth.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

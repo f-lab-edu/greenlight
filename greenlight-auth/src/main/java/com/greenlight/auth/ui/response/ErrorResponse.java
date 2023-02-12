@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import com.domain.ErrorCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.greenlight.auth.domain.ErrorCode;
 
 @Getter
 @Setter

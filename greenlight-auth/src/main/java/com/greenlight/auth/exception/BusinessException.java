@@ -2,7 +2,7 @@ package com.greenlight.auth.exception;
 
 import lombok.Getter;
 
-import com.domain.ErrorCode;
+import com.greenlight.auth.domain.ErrorCode;
 
 @Getter
 public class BusinessException extends RuntimeException {

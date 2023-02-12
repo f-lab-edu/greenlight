@@ -18,10 +18,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.domain.entity.Member;
-import com.domain.repository.MemberRepository;
 import com.greenlight.auth.configuration.jwt.JwtProperties;
 import com.greenlight.auth.configuration.jwt.JwtTokenProvider;
+import com.greenlight.auth.domain.entity.Member;
+import com.greenlight.auth.domain.repository.MemberRepository;
 import com.greenlight.auth.ui.request.LoginRequest;
 import com.greenlight.auth.ui.response.TokenResponse;
 

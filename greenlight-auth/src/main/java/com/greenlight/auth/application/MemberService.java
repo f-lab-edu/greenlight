@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.domain.entity.Member;
-import com.domain.repository.MemberRepository;
+import com.greenlight.auth.domain.entity.Member;
+import com.greenlight.auth.domain.repository.MemberRepository;
 import com.greenlight.auth.exception.DuplicateUserException;
 import com.greenlight.auth.ui.request.MemberRequest;
 import com.greenlight.auth.ui.response.MemberResponse;

@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.domain.ErrorCode;
+import com.greenlight.auth.domain.ErrorCode;
 import com.greenlight.auth.exception.JwtException;
 import com.greenlight.auth.ui.response.ErrorResponse;
 

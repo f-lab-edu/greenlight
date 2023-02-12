@@ -24,8 +24,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
-import com.domain.ErrorCode;
 import com.greenlight.auth.application.dto.TokenDTO;
+import com.greenlight.auth.domain.ErrorCode;
 import com.greenlight.auth.exception.JwtException;
 
 /**
