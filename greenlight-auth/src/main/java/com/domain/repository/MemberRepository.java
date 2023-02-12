@@ -1,4 +1,4 @@
-package com.greenlight.auth.domain.repository;
+package com.domain.repository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -8,8 +8,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
+import com.domain.entity.Member;
 import com.greenlight.auth.application.dto.TokenDTO;
-import com.greenlight.auth.domain.entity.Member;
 
 @Slf4j
 @Repository

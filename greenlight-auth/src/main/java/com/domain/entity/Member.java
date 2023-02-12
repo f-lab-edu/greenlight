@@ -1,4 +1,4 @@
-package com.greenlight.auth.domain.entity;
+package com.domain.entity;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.greenlight.auth.domain.MemberRole;
+import com.domain.MemberRole;
 
 @Getter
 @ToString

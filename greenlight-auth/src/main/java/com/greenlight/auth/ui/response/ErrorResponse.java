@@ -1,11 +1,12 @@
 package com.greenlight.auth.ui.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.greenlight.auth.domain.ErrorCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import com.domain.ErrorCode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
 @Setter

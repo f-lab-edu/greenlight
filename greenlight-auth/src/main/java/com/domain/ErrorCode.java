@@ -1,7 +1,8 @@
-package com.greenlight.auth.domain;
+package com.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 
 @Getter
