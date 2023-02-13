@@ -4,6 +4,7 @@ spring:
     url: jdbc:mysql://localhost:3307/greenlight?serverTimezone=Asia/Seoul&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
     username: grnmaster
     password: password
+
   flyway:
     enabled: false
     encoding: UTF-8
@@ -11,11 +12,12 @@ spring:
     user: grnmaster
     password: password
     baseline-on-migrate: true
-    locations: classpath:db/migrations/local,db/migrations/seed
+    locations: classpath:/db/migration/local, classpath:/db/migration/seed
     baseline-version: 1.0.0
     ignore-migration-patterns: "*:pending"
     clean-on-validation-error: true
     clean-disabled: false
+
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
