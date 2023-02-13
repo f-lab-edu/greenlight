@@ -6,4 +6,6 @@
 - Docker
 - Github Flow
 ## 📌 ERD
+![erd][logo]
 
+[logo]: documents/img/v1_greenlight.png

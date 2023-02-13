@@ -4,6 +4,13 @@ spring:
     url: jdbc:mysql://localhost:3307/greenlight?serverTimezone=Asia/Seoul&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
     username: grnmaster
     password: password
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 15000
+      validation-timeout: 10000
+      max-lifetime: 0
+      connection-test-query: SELECT 1 FROM DUAL
+      pool-name: OrdHikariPool
 
   flyway:
     enabled: false
@@ -42,3 +49,12 @@ server:
     include-message: always
     include-binding-errors: always
 
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p --- [%t] %-40.40logger{39} [%4L] : %m%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p --- [%t] %-40.40logger{39} [%4L] : %m%n"
+  level:
+    root: info
+    com.greenlight: debug
+  charset:
+    console: UTF-8
