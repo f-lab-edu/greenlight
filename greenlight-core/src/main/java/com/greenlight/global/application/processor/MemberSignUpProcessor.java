@@ -1,14 +1,13 @@
 package com.greenlight.global.application.processor;
 
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.greenlight.global.domain.model.Member;
 import com.greenlight.global.domain.repository.member.MemberRepository;
 import com.greenlight.global.infrastructure.exception.MemberAlreadySignUpMemberIdException;
+import lombok.Getter;
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 public class MemberSignUpProcessor {
@@ -35,6 +34,7 @@ public class MemberSignUpProcessor {
 	}
 
 	@Getter
+	@ToString
 	public static class Command {
 		private String memberId;
 		private String password;
