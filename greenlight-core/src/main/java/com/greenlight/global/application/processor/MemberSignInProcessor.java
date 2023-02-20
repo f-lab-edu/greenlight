@@ -1,8 +1,7 @@
 package com.greenlight.global.application.processor;
 
-import lombok.Getter;
-
 import com.greenlight.global.domain.auth.Auth;
+import lombok.Getter;
 
 public class MemberSignInProcessor {
 
@@ -28,7 +27,7 @@ public class MemberSignInProcessor {
     }
 
     @Getter
-    public class Result {
+    public static class Result {
         private String token;
 
         public Result(String token) {

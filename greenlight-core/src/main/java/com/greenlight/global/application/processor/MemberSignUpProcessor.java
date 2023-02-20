@@ -60,7 +60,7 @@ public class MemberSignUpProcessor {
 	}
 
 	@Getter
-	public class Result {
+	public static class Result {
 		private int memberId;
 
 		public Result(int memberId) {
