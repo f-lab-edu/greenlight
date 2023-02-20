@@ -1,40 +1,49 @@
 package com.greenlight.global.application.processor;
 
-import com.greenlight.global.domain.exception.MemberAlreadySignUpEmailException;
-import com.greenlight.global.domain.model.Member;
-import com.greenlight.global.domain.repository.MemberRepository;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.greenlight.global.domain.model.Member;
+import com.greenlight.global.domain.repository.member.MemberRepository;
+import com.greenlight.global.infrastructure.exception.MemberAlreadySignUpMemberIdException;
+
+@Slf4j
 public class MemberSignUpProcessor {
 
 	private final MemberRepository memberRepository;
+	private final PasswordEncoder passwordEncoder;
 
-	public MemberSignUpProcessor(MemberRepository memberRepository) {
+	public MemberSignUpProcessor(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
 		this.memberRepository = memberRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
+	@Transactional
 	public Result execute(Command command) {
-		Member member = memberRepository.findByEmail(command.getEmail());
+		Member member = memberRepository.findByMemberId(command.getMemberId());
 
 		if (null != member) {
-			throw new MemberAlreadySignUpEmailException();
+			throw new MemberAlreadySignUpMemberIdException();
 		}
 
-		Long memberId = memberRepository.save(command);
+		int memberId = memberRepository.save(getConvertingToMember(command));
 
 		return new Result(memberId);
 	}
 
 	@Getter
 	public static class Command {
-		private String email;
+		private String memberId;
 		private String password;
 		private String nickname;
 		private String phone;
 		private String role;
 
-		public Command(String email, String password, String nickname, String phone, String role) {
-			this.email = email;
+		public Command(String memberId, String password, String nickname, String phone, String role) {
+			this.memberId = memberId;
 			this.password = password;
 			this.nickname = nickname;
 			this.phone = phone;
@@ -42,11 +51,19 @@ public class MemberSignUpProcessor {
 		}
 	}
 
+	private Member getConvertingToMember(Command command) {
+		return Member.builder().memberId(command.getMemberId())
+				.password(passwordEncoder.encode(command.getPassword()))
+				.nickname(command.getNickname())
+				.phone(command.getPhone())
+				.roles(command.getRole()).build();
+	}
+
 	@Getter
 	public class Result {
-		private Long memberId;
+		private int memberId;
 
-		public Result(Long memberId) {
+		public Result(int memberId) {
 			this.memberId = memberId;
 		}
 	}

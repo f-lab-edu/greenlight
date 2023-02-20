@@ -1,11 +1,10 @@
 package com.greenlight.global.infrastructure.config;
 
 import javax.sql.DataSource;
-import com.zaxxer.hikari.HikariDataSource;
+
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -16,9 +15,10 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.zaxxer.hikari.HikariDataSource;
+
 public class DatabaseConfig {
 
-	public static final String MYBATIS_BASE_PACKAGE = "com.greenlight.global.domain.repository";
 	public static final String MYBATIS_TYPE_ALIASES_PACKAGE = "com.greenlight.global.domain.model, com.greenlight.global.application.processor";
 	public static final String MYBATISCONFIG_PATH = "classpath:mapper/mybatis-config.xml";
 	public static final String MYBATIS_MAPPER_LOCATIONS_PATH = "classpath:mapper/**/*Mapper.xml";
@@ -35,41 +35,37 @@ public class DatabaseConfig {
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan(basePackages = DatabaseConfig.MYBATIS_BASE_PACKAGE
-//        , sqlSessionFactoryRef = "greenLightSqlSessionFactory"
-	, sqlSessionTemplateRef = "greenLightSqlSession"
-	, annotationClass = MyBatisMapper.class)
 class DatabaseMyBatisConfig extends DatabaseConfig {
 
 	@ConfigurationProperties(prefix = "spring.datasource")
-	@Bean(name = "greenLightDataSourceProperties")
+	@Bean
 	public DataSourceProperties dataSourceProperties() {
 		return new DataSourceProperties();
 	}
 
 	@ConfigurationProperties(prefix = "spring.datasource.hikari")
-	@Bean(name = "greenLightDataSource")
-	public HikariDataSource dataSource(@Qualifier("greenLightDataSourceProperties") DataSourceProperties properties) throws IllegalArgumentException {
+	@Bean(name = "dataSourceGreenLight")
+	public HikariDataSource dataSourceGreenLight(@Qualifier("dataSourceProperties") DataSourceProperties properties) throws IllegalArgumentException {
 		return properties.initializeDataSourceBuilder().type(HikariDataSource.class).build();
 	}
 
 	/**
 	 * Mybatis SqlSession Settings
 	 */
-	@Bean(name = "greenLightSqlSessionFactory")
-	public SqlSessionFactory sqlSessionFactory(@Qualifier("greenLightDataSource") DataSource dataSource) throws Exception {
+	@Bean(name = "sqlSessionFactoryGreenLight")
+	public SqlSessionFactory sqlSessionFactoryGreenLight(@Qualifier("dataSourceGreenLight") DataSource dataSource) throws Exception {
 		SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
 		configureSqlSessionFactory(sqlSessionFactory, dataSource);
 		return sqlSessionFactory.getObject();
 	}
 
-	@Bean(name = "greenLightSqlSession")
-	public SqlSessionTemplate sqlSession(@Qualifier("greenLightSqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
+	@Bean(name = "sqlSessionTemplateGreenLight")
+	public SqlSessionTemplate sqlSessionTemplateGreenLight(@Qualifier("sqlSessionFactoryGreenLight") SqlSessionFactory sqlSessionFactory) {
 		return new SqlSessionTemplate(sqlSessionFactory);
 	}
 
-	@Bean(name = "greenLightTransactionManager")
-	public DataSourceTransactionManager transactionManager(@Qualifier("greenLightDataSource") DataSource dataSource) {
+	@Bean(name = "transactionManagerGreenLight")
+	public DataSourceTransactionManager transactionManagerGreenLight(@Qualifier("dataSourceGreenLight") DataSource dataSource) {
 		return new DataSourceTransactionManager(dataSource);
 	}
 }

@@ -24,6 +24,9 @@ dependencies {
     // JWT
     implementation 'com.auth0:java-jwt:3.19.2'
 
+    // mybatis query log
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.16'
+
     // test
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation 'org.springframework.security:spring-security-test'

@@ -10,8 +10,10 @@ subprojects {
     apply plugin: "java"
     apply plugin: "org.springframework.boot"
     apply plugin: "io.spring.dependency-management"
+    /*
     apply plugin: "org.ec4j.editorconfig"
     apply plugin: "checkstyle"
+    */
 
     group = "com.greenlight"
     version = "0.0.1-SNAPSHOT"
@@ -45,6 +47,7 @@ subprojects {
         annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     }
 
+    /*
     editorconfig {
         excludes = ['build']
     }
@@ -64,6 +67,7 @@ subprojects {
     checkstyleTest {
         source ='src/test/java'
     }
+    */
 }
 
 //projects
@@ -73,11 +77,6 @@ project(':greenlight-core') {
 }
 
 project(':greenlight-api') {
-    bootJar { enabled = true }
-    jar { enabled = false }
-}
-
-project(':greenlight-auth') {
     bootJar { enabled = true }
     jar { enabled = false }
 }

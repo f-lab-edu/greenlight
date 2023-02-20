@@ -1,16 +1,16 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/greenlight?serverTimezone=Asia/Seoul&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3307/greenlight?serverTimezone=Asia/Seoul&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
     username: grnmaster
     password: password
     hikari:
-      maximum-pool-size: 5
       connection-timeout: 15000
       validation-timeout: 10000
-      max-lifetime: 0
+      maximum-pool-size: 20
+      max-lifetime: 240000
       connection-test-query: SELECT 1 FROM DUAL
-      pool-name: OrdHikariPool
+      pool-name: GreenLightHikariPool
 
   flyway:
     enabled: false
@@ -55,6 +55,13 @@ logging:
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p --- [%t] %-40.40logger{39} [%4L] : %m%n"
   level:
     root: info
+    org.springframework.web: debug
     com.greenlight: debug
+    jdbc.sqlonly: off
+    jdbc.sqltiming: info
+    jdbc.resultsettable: off
+    jdbc.audit: off
+    jdbc.resultset: off
+    jdbc.connection: off
   charset:
     console: UTF-8
