@@ -1,0 +1,49 @@
+apply plugin: "org.flywaydb.flyway"
+
+dependencies {
+    // spring
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+
+    // flyway
+    implementation "org.flywaydb:flyway-core"
+    implementation "org.flywaydb:flyway-mysql"
+
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // JWT
+    implementation 'com.auth0:java-jwt:3.19.2'
+
+    // mybatis query log
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.16'
+
+    // test
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+flyway {
+    url = 'jdbc:mysql://localhost:3307/greenlight'
+    user = 'grnmaster'
+    password = 'password'
+//    locations = ["filesystem:${file('src/migration/seed').absolutePath}"]
+    locations = ['classpath:/db/migration/local', 'classpath:/db/migration/seed']
+//    schemas = ['greenlight']
+    encoding = 'UTF-8'
+    outOfOrder = true // 여러브랜치에서 서로 다른 날짜로 만들어도 작동하도록
+    validateOnMigrate = true
+}

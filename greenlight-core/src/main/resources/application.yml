@@ -1,0 +1,67 @@
+spring:
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3307/greenlight?serverTimezone=Asia/Seoul&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    username: grnmaster
+    password: password
+    hikari:
+      connection-timeout: 15000
+      validation-timeout: 10000
+      maximum-pool-size: 20
+      max-lifetime: 240000
+      connection-test-query: SELECT 1 FROM DUAL
+      pool-name: GreenLightHikariPool
+
+  flyway:
+    enabled: false
+    encoding: UTF-8
+    url: jdbc:mysql://localhost:3307/greenlight
+    user: grnmaster
+    password: password
+    baseline-on-migrate: true
+    locations: classpath:/db/migration/local, classpath:/db/migration/seed
+    baseline-version: 1.0.0
+    ignore-migration-patterns: "*:pending"
+    clean-on-validation-error: true
+    clean-disabled: false
+
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+# HS512 알고리즘 사용 64byte 이상의 키값을 사용해야함
+jwt:
+  header: Authorization
+  secret: Zi1sYWItZ3JlZW5saWdodC1zcHJpbmctYm9vdC1qd3QtZi1sYWItZ3JlZW5saWdodC1zcHJpbmctYm9vdC1qd3QK
+  token-validity-in-seconds: 86400
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p --- [%t] %-40.40logger{39} [%4L] : %m%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p --- [%t] %-40.40logger{39} [%4L] : %m%n"
+  level:
+    root: info
+    org.springframework.web: debug
+    com.greenlight: debug
+    jdbc.sqlonly: off
+    jdbc.sqltiming: info
+    jdbc.resultsettable: off
+    jdbc.audit: off
+    jdbc.resultset: off
+    jdbc.connection: off
+  charset:
+    console: UTF-8

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- mapper namespcae 단위로 동작 commit해도 캐시가 살아있으므로 false처리-->
+        <setting name="cacheEnabled" value="false"/>
+        <!-- default : SESSION sqlsession마다 cache{commit, rollback, insert, update, delete} cache삭제 -->
+        <setting name="localCacheScope" value="SESSION"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+</configuration>
