@@ -63,5 +63,6 @@ logging:
     jdbc.audit: off
     jdbc.resultset: off
     jdbc.connection: off
+    org.hibernate.type.descriptor.sql: trace
   charset:
     console: UTF-8
