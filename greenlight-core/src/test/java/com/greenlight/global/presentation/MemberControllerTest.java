@@ -43,7 +43,7 @@ class MemberControllerTest {
 			.phone("01029881245")
 			.build();
 
-		MemberSignUpProcessor.Result result = new MemberSignUpProcessor.Result(1);
+		MemberSignUpProcessor.Result result = new MemberSignUpProcessor.Result("junhyun");
 
 		//given
 		given(memberManager.signUp(any())).willReturn(result);
@@ -65,7 +65,7 @@ class MemberControllerTest {
 			.andExpect(jsonPath("$.success").exists())
 			.andExpect(jsonPath("$.success").value(true))
 			.andExpect(jsonPath("$.data.memberId").exists())
-			.andExpect(jsonPath("$.data.memberId").value(1))
+			.andExpect(jsonPath("$.data.memberId").value("junhyun"))
 //			.andDo(MockMvcResultHandlers.print())
 		;
 	}

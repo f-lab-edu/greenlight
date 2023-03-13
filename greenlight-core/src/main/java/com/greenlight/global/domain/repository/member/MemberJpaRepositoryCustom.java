@@ -2,7 +2,6 @@ package com.greenlight.global.domain.repository.member;
 
 import com.greenlight.global.domain.model.entity.Member;
 
-public interface MemberRepository {
-	int save(Member member);
+public interface MemberJpaRepositoryCustom {
 	Member findByMemberId(String memberId);
 }

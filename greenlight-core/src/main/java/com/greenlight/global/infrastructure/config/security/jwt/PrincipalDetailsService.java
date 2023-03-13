@@ -1,10 +1,12 @@
 package com.greenlight.global.infrastructure.config.security.jwt;
 
-import lombok.RequiredArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
-
+import com.greenlight.global.domain.model.constants.common.CommonBoolean;
+import com.greenlight.global.domain.model.entity.Member;
+import com.greenlight.global.domain.repository.member.MemberJpaRepository;
+import com.greenlight.global.infrastructure.exception.MemberIdNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,16 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.greenlight.global.domain.model.Member;
-import com.greenlight.global.domain.model.constants.common.CommonBoolean;
-import com.greenlight.global.domain.repository.member.MemberRepository;
-import com.greenlight.global.infrastructure.exception.MemberIdNotFoundException;
-
 @RequiredArgsConstructor
 @Component
 public class PrincipalDetailsService implements UserDetailsService {
 
-	private final MemberRepository memberRepository;
+	private final MemberJpaRepository memberRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
@@ -33,7 +30,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 	}
 
 	private User createUser(Member member) {
-		if (CommonBoolean.N.getIntYN() == member.getActivated()) {
+		if (CommonBoolean.N.name().equals(member.getActivated())) {
 			throw new MemberIdNotFoundException();
 		}
 

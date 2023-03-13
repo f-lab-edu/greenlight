@@ -1,7 +1,7 @@
 package com.greenlight.global.application.processor;
 
-import com.greenlight.global.domain.model.Member;
-import com.greenlight.global.domain.repository.member.MemberRepository;
+import com.greenlight.global.domain.model.entity.Member;
+import com.greenlight.global.domain.repository.member.MemberJpaRepository;
 import com.greenlight.global.infrastructure.exception.MemberAlreadySignUpMemberIdException;
 import lombok.Getter;
 import lombok.ToString;
@@ -12,15 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class MemberSignUpProcessor {
 
-	private final MemberRepository memberRepository;
+	private final MemberJpaRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 
-	public MemberSignUpProcessor(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+	public MemberSignUpProcessor(MemberJpaRepository memberRepository, PasswordEncoder passwordEncoder) {
 		this.memberRepository = memberRepository;
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	@Transactional
+	@Transactional(value = "jpaTransactionManager")
 	public Result execute(Command command) {
 		Member member = memberRepository.findByMemberId(command.getMemberId());
 
@@ -28,9 +28,9 @@ public class MemberSignUpProcessor {
 			throw new MemberAlreadySignUpMemberIdException();
 		}
 
-		int memberId = memberRepository.save(getConvertingToMember(command));
+		Member member2 = memberRepository.save(getConvertingToMember(command));
 
-		return new Result(memberId);
+		return new Result(member2.getMemberId());
 	}
 
 	@Getter
@@ -61,9 +61,9 @@ public class MemberSignUpProcessor {
 
 	@Getter
 	public static class Result {
-		private int memberId;
+		private String memberId;
 
-		public Result(int memberId) {
+		public Result(String memberId) {
 			this.memberId = memberId;
 		}
 	}

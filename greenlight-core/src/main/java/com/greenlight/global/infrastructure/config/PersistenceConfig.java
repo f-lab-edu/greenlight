@@ -1,11 +1,10 @@
 package com.greenlight.global.infrastructure.config;
 
+import com.greenlight.global.domain.repository.member.MemberRepository;
+import com.greenlight.global.infrastructure.persistence.member.MyBatisMemberRepository;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.greenlight.global.domain.repository.member.MemberRepository;
-import com.greenlight.global.infrastructure.persistence.member.MyBatisMemberRepository;
 
 @Configuration
 public class PersistenceConfig {

@@ -2,17 +2,17 @@ package com.greenlight.global.presentation.handler;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.validation.BindException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import com.greenlight.global.domain.model.constants.common.ResponseCommonCode;
 import com.greenlight.global.infrastructure.exception.MemberAlreadySignUpMemberIdException;
 import com.greenlight.global.infrastructure.exception.MemberIdNotFoundException;
 import com.greenlight.global.infrastructure.exception.MemberNotActivatedException;
 import com.greenlight.global.presentation.response.ApiResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
@@ -74,6 +74,7 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public ApiResponse<Object> handler(Exception e) {
+    	log.error("Exception {}", e.getMessage());
         return ApiResponse.fail(
                 new ApiResponse.Error(
                         ResponseCommonCode.FAILED_SYSTEM.getCode(),
