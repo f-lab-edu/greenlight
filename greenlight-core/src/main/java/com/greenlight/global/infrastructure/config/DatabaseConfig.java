@@ -8,10 +8,6 @@ import javax.sql.DataSource;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.hibernate.boot.model.naming.ImplicitNamingStrategy;
-import org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl;
-import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
-import org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
@@ -26,6 +22,7 @@ import org.springframework.dao.annotation.PersistenceExceptionTranslationPostPro
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -51,7 +48,7 @@ public class DatabaseConfig {
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-	basePackages = {"com.greenlight.global.domain.repository.member", "com.greenlight.global.infrastructure.persistence.member"},  // repository 관리할 패키지경로
+	basePackages = {"com.greenlight.global.domain.repository", "com.greenlight.global.infrastructure.persistence"},  // repository 관리할 패키지경로
 	entityManagerFactoryRef = "jpaEntityManagerFactory",
 	transactionManagerRef = "jpaTransactionManager")
 class DatabaseMySQLConfig extends DatabaseConfig {
@@ -64,18 +61,8 @@ class DatabaseMySQLConfig extends DatabaseConfig {
 
 	@ConfigurationProperties(prefix = "spring.datasource.hikari")
 	@Bean(name = "dataSourceGreenLight")
-	public HikariDataSource dataSourceGreenLight(@Qualifier("dataSourceProperties") DataSourceProperties properties) throws IllegalArgumentException {
-		return properties.initializeDataSourceBuilder().type(HikariDataSource.class).build();
-	}
-
-	@Bean
-	public PhysicalNamingStrategy physical() {
-		return new PhysicalNamingStrategyStandardImpl();
-	}
-
-	@Bean
-	public ImplicitNamingStrategy implicit() {
-		return new ImplicitNamingStrategyLegacyJpaImpl();
+	public DataSource dataSourceGreenLight(@Qualifier("dataSourceProperties") DataSourceProperties properties) throws IllegalArgumentException {
+		return new LazyConnectionDataSourceProxy(properties.initializeDataSourceBuilder().type(HikariDataSource.class).build());
 	}
 
 	/**
@@ -149,6 +136,46 @@ class DatabaseMySQLConfig extends DatabaseConfig {
 	public DataSourceTransactionManager transactionManagerGreenLight(@Qualifier("dataSourceGreenLight") DataSource dataSource) {
 		return new DataSourceTransactionManager(dataSource);
 	}
+
+	/* datasource diff
+	@Bean
+	public PlatformTransactionManager transactionManager(
+		@Qualifier("jpaTransactionManager") PlatformTransactionManager jpaTransactionManager
+		, @Qualifier("transactionManagerGreenLight") PlatformTransactionManager transactionManagerGreenLight) {
+
+		//new ChainedTransactionManager(jpaTransactionManager, transactionManager11st); deprecated
+		return new AbstractPlatformTransactionManager() {
+
+			@Override
+			protected Object doGetTransaction() throws TransactionException {
+				return TransactionSynchronizationManager.getResourceMap();
+			}
+
+			@Override
+			protected void doBegin(Object transaction, TransactionDefinition definition) throws TransactionException {
+				TransactionSynchronizationManager.initSynchronization();
+				for (PlatformTransactionManager tm : Arrays.asList(jpaTransactionManager, transactionManagerGreenLight)) {
+					tm.getTransaction(definition);
+				}
+			}
+
+			@Override
+			protected void doCommit(DefaultTransactionStatus status) throws TransactionException {
+				for (PlatformTransactionManager tm : Arrays.asList(jpaTransactionManager, transactionManagerGreenLight)) {
+					tm.commit((TransactionStatus) status.getTransaction());
+				}
+			}
+
+			@Override
+			protected void doRollback(DefaultTransactionStatus status) throws TransactionException {
+				for (PlatformTransactionManager tm : Arrays.asList(jpaTransactionManager, transactionManagerGreenLight)) {
+					tm.rollback((TransactionStatus) status.getTransaction());
+				}
+			}
+
+		};
+	}
+	*/
 }
 
 @Configuration

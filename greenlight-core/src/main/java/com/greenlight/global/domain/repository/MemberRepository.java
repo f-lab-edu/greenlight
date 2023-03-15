@@ -1,4 +1,4 @@
-package com.greenlight.global.domain.repository.member;
+package com.greenlight.global.domain.repository;
 
 import com.greenlight.global.domain.model.entity.Member;
 

@@ -1,7 +1,7 @@
 package com.greenlight.global.domain.model.entity;
 
 import java.util.List;
-import com.greenlight.global.domain.repository.member.MemberJpaRepository;
+import com.greenlight.global.infrastructure.persistence.jpa.MemberJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
