@@ -10,6 +10,8 @@ import java.time.Duration;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.MDC;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +33,7 @@ public class RestTemplateConfig {
 
     private RestTemplate restTemplate;
 
+    @PostConstruct
     public void init() {
         restTemplate = new RestTemplateBuilder()
                 .setConnectTimeout(Duration.ofSeconds(5))
