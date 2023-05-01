@@ -1,36 +1,38 @@
 package com.greenlight.global.application.processor;
 
-import com.greenlight.global.domain.model.Member;
-import com.greenlight.global.domain.repository.member.MemberRepository;
+import com.greenlight.global.domain.model.entity.Member;
+import com.greenlight.global.domain.pwd.PasswordHelper;
 import com.greenlight.global.infrastructure.exception.MemberAlreadySignUpMemberIdException;
+import com.greenlight.global.infrastructure.persistence.MemberAdapterRepository;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 public class MemberSignUpProcessor {
 
-	private final MemberRepository memberRepository;
-	private final PasswordEncoder passwordEncoder;
+	private final MemberAdapterRepository memberAdapterRepository;
+	private final PasswordHelper passwordHelper;
 
-	public MemberSignUpProcessor(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
-		this.memberRepository = memberRepository;
-		this.passwordEncoder = passwordEncoder;
+	public MemberSignUpProcessor(MemberAdapterRepository memberAdapterRepository, PasswordHelper passwordHelper) {
+		this.memberAdapterRepository = memberAdapterRepository;
+		this.passwordHelper = passwordHelper;
 	}
 
-	@Transactional
+	@Transactional(value = "jpaTransactionManager", propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
 	public Result execute(Command command) {
-		Member member = memberRepository.findByMemberId(command.getMemberId());
+		Member member = memberAdapterRepository.findByMemberId(command.getMemberId());
 
 		if (null != member) {
 			throw new MemberAlreadySignUpMemberIdException();
 		}
 
-		int memberId = memberRepository.save(getConvertingToMember(command));
+		memberAdapterRepository.save(getConvertingToMember(command));
 
-		return new Result(memberId);
+		return new Result(command.getMemberId());
 	}
 
 	@Getter
@@ -53,7 +55,7 @@ public class MemberSignUpProcessor {
 
 	private Member getConvertingToMember(Command command) {
 		return Member.builder().memberId(command.getMemberId())
-				.password(passwordEncoder.encode(command.getPassword()))
+				.password(passwordHelper.encode(command.getPassword()))
 				.nickname(command.getNickname())
 				.phone(command.getPhone())
 				.roles(command.getRole()).build();
@@ -61,9 +63,9 @@ public class MemberSignUpProcessor {
 
 	@Getter
 	public static class Result {
-		private int memberId;
+		private String memberId;
 
-		public Result(int memberId) {
+		public Result(String memberId) {
 			this.memberId = memberId;
 		}
 	}

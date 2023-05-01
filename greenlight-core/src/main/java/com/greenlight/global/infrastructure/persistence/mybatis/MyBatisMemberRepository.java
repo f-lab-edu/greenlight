@@ -1,9 +1,8 @@
-package com.greenlight.global.infrastructure.persistence.member;
+package com.greenlight.global.infrastructure.persistence.mybatis;
 
+import com.greenlight.global.domain.model.entity.Member;
+import com.greenlight.global.domain.repository.MemberRepository;
 import org.mybatis.spring.SqlSessionTemplate;
-
-import com.greenlight.global.domain.model.Member;
-import com.greenlight.global.domain.repository.member.MemberRepository;
 
 public class MyBatisMemberRepository implements MemberRepository {
 

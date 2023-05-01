@@ -1,21 +1,20 @@
 package com.greenlight.global.presentation.response;
 
+import com.greenlight.global.application.processor.MemberSignUpProcessor;
 import lombok.Getter;
 import lombok.ToString;
-
-import com.greenlight.global.application.processor.MemberSignUpProcessor;
 
 @Getter
 @ToString
 public class SignUpResponse {
 
-	private int memberId;
+	private String memberId;
 
 	public static SignUpResponse from(MemberSignUpProcessor.Result result) {
 		return new SignUpResponse(result.getMemberId());
 	}
 
-	public SignUpResponse(int memberId) {
+	public SignUpResponse(String memberId) {
 		this.memberId = memberId;
 	}
 }
