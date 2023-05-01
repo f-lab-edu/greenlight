@@ -10,6 +10,8 @@ import java.time.Duration;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.MDC;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -29,14 +31,21 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class RestTemplateConfig {
 
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplateBuilder()
+    private RestTemplate restTemplate;
+
+   가
+    public void init() {
+        restTemplate = new RestTemplateBuilder()
                 .setConnectTimeout(Duration.ofSeconds(5))
                 .setReadTimeout(Duration.ofSeconds(5))
                 .additionalInterceptors(clientHttpRequestInterceptor(), new LoggingInterceptor())
                 .requestFactory(() -> new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()))
                 .build();
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return restTemplate;
     }
 
     public ClientHttpRequestInterceptor clientHttpRequestInterceptor() {
@@ -49,16 +58,13 @@ public class RestTemplateConfig {
         };
     }
 
-    @Slf4j
-    static class LoggingInterceptor implements ClientHttpRequestInterceptor {
+    private class LoggingInterceptor implements ClientHttpRequestInterceptor {
 
         @Override
         public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
             String traceId = MDC.get("traceId");
-            log.info("intercept MDC traceId > {} ", traceId);
             if (!StringUtils.hasText(traceId)) {
                 traceId = UUID.randomUUID().toString();
-                log.info("intercept UUID traceId > {} ", traceId);
             }
 
             request.getHeaders().add("traceId", traceId);
