@@ -55,7 +55,7 @@ public class RestTemplateConfig {
         };
     }
 
-    private class LoggingInterceptor implements ClientHttpRequestInterceptor {
+    private static class LoggingInterceptor implements ClientHttpRequestInterceptor {
 
         @Override
         public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
