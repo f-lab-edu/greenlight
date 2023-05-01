@@ -1,5 +1,7 @@
 package com.greenlight.global.presentation;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ import com.greenlight.global.presentation.response.ApiResponse;
 import com.greenlight.global.presentation.response.SignInResponse;
 import com.greenlight.global.presentation.response.SignUpResponse;
 
+@Slf4j
 @RestController
 @RequestMapping(value = GreenLightConstants.PATH_API_VERSION_1, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MemberController {
@@ -68,4 +71,5 @@ public class MemberController {
 	public String admin(@RequestBody SignInRequest signInRequest) {
 		return "admin";
 	}
+
 }

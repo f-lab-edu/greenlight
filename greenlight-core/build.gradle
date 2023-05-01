@@ -9,6 +9,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
@@ -40,6 +41,13 @@ dependencies {
 
     // h2
     runtimeOnly 'com.h2database:h2'
+
+    // logback json format
+    implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'
+    implementation 'ch.qos.logback.contrib:logback-jackson:0.1.5'
+
+    // http retry
+    implementation 'org.springframework.retry:spring-retry:1.2.5.RELEASE'
 
     // test
     testImplementation "org.springframework.boot:spring-boot-starter-test"

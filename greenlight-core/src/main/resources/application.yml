@@ -59,8 +59,8 @@ server:
 
 logging:
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p --- [%t] %-40.40logger{39} [%4L] : %m%n"
-    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p --- [%t] %-40.40logger{39} [%4L] : %m%n"
+    console: "[%d{yyyyMMdd HH:mm:ss.SSS}][%5p][%t][%X{traceId}] %-40.40logger{39} [%4L] : %m%n"
+    file: "[%d{yyyyMMdd HH:mm:ss.SSS}][%5p][%t][%X{traceId}] %-40.40logger{39} [%4L] : %m%n"
   level:
     root: info
     org.springframework.web: debug

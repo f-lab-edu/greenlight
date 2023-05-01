@@ -1,16 +1,5 @@
 package com.greenlight.global.presentation;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import com.greenlight.global.application.facade.MemberManager;
-import com.greenlight.global.application.processor.MemberSignInProcessor;
-import com.greenlight.global.application.processor.MemberSignUpProcessor;
-import com.greenlight.global.domain.ObjectJsonConverter;
-import com.greenlight.global.domain.model.constants.common.GreenLightConstants;
-import com.greenlight.global.presentation.request.SignInRequest;
-import com.greenlight.global.presentation.request.SignUpRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +11,20 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import com.greenlight.global.application.facade.MemberManager;
+import com.greenlight.global.application.processor.MemberSignInProcessor;
+import com.greenlight.global.application.processor.MemberSignUpProcessor;
+import com.greenlight.global.domain.ObjectJsonConverter;
+import com.greenlight.global.domain.model.constants.common.GreenLightConstants;
+import com.greenlight.global.presentation.request.SignInRequest;
+import com.greenlight.global.presentation.request.SignUpRequest;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @WebMvcTest(controllers = MemberController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -95,13 +98,14 @@ class MemberControllerTest {
 
 		//then
 		resultActions
-			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.success").exists())
-			.andExpect(jsonPath("$.success").value(true))
-			.andExpect(jsonPath("$.data.token").exists())
-			.andExpect(jsonPath("$.data.token").value("abcdefg"))
-//			.andDo(MockMvcResultHandlers.print())
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(header().exists("traceId"))
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.success").exists())
+				.andExpect(jsonPath("$.success").value(true))
+				.andExpect(jsonPath("$.data.token").exists())
+				.andExpect(jsonPath("$.data.token").value("abcdefg"))
+	//			.andDo(MockMvcResultHandlers.print())
 		;
 	}
 
